@@ -18,9 +18,17 @@ func (s *shell) setVar(k, v string) {
 func (s *shell) processInput(input string) {
 	// split line with spaces
 	args := strings.Split(input, " ")
+
+	if args[len(args)-1] == "&" {
+		go s.exec(args)
+	} else {
+		s.exec(args)
+	}
 	
-	// Swap this out for a switch statement,
-	// or maybe a map of works to functions
+
+}
+
+func (s *shell) exec(args []string) {
 	switch args[0] {
 	case "set":
 		s.setVar(args[1], args[2])
@@ -30,7 +38,6 @@ func (s *shell) processInput(input string) {
 	default:
 		fmt.Println("unrecognized command")
 	}
-
 }
 
 func main() {

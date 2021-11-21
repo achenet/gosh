@@ -1,3 +1,5 @@
 Handle the execution of binaries.
+exec [path/of/bin]
 
-Handle enviroment variables.
+Put option to set prompt.
+More generally create environment variables that affect the user experience.
