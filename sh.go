@@ -4,13 +4,40 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
-// Initialize env
-var env map[string]interface{}
+type shell struct {
+	variables map[string]string
+}
+
+func (s *shell) setVar(k, v string) {
+	s.variables[k] = v
+}
+
+func (s *shell) processInput(input string) {
+	// split line with spaces
+	args := strings.Split(input, " ")
+	
+	// Swap this out for a switch statement,
+	// or maybe a map of works to functions
+	switch args[0] {
+	case "set":
+		s.setVar(args[1], args[2])
+		fmt.Printf("set variable %s to value %s\n", args[1], args[2])
+	case "show":
+		fmt.Println(s.variables)
+	default:
+		fmt.Println("unrecognized command")
+	}
+
+}
 
 func main() {
 	fmt.Println("gosh!")
+	env := shell{
+		variables: make(map[string]string),
+	}
 	for {
 		// Read std input
 		r := bufio.NewReader(os.Stdin)
@@ -20,6 +47,7 @@ func main() {
 		s := string(l)
 		fmt.Println(">", s)
 		// Process input
+		env.processInput(s)
 
 		// Write std output
 
@@ -40,8 +68,5 @@ func handle(err error) {
 }
 
 func exit(s string) bool {
-	if s == "exit" {
-		return true
-	}
-	return false
+	return s == "exit"
 }
