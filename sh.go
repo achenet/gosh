@@ -19,7 +19,6 @@ func main() {
 		handle(err)
 		s := string(l)
 		fmt.Println(">", s)
-		fmt.Println(l)
 		// Process input
 
 		// Write std output
